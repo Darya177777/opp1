@@ -17,4 +17,4 @@ cat $PBS_NODEFILE
 echo "Using mpirun at `which mpirun`"
 echo "Running $MPI_NP MPI processes"
 
-mpirun -machinefile $PBS_NODEFILE -np $MPI_NP ./itog.out
+mpirun -machinefile $PBS_NODEFILE -np $MPI_NP ./itog
