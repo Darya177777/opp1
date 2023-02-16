@@ -4,9 +4,9 @@
 #include "mpi.h"
 
 
-#define VECTOR_SIZE 10
+#define VECTOR_SIZE 15000
 #define RANK_ROOT 0
-#define TAU 0.01
+#define TAU 0.001
 
 void vector_fill(double * a, double * x, double * b, int n, double fill_value) {
     for (int i = 0; i < n; i++) {
@@ -42,7 +42,7 @@ double run(int size, int rank, const double * a, double * x, double * b, double 
         for (j = 0; j < VECTOR_SIZE; j++)
             y_partial[i] += a_partial[i * n + j] * x[j];
 
-        if (rank != size - 1 || i < VECTOR_SIZE % n_partial){
+        if (VECTOR_SIZE % n_partial == 0 || rank != size - 1 || i < VECTOR_SIZE % n_partial){
             norma += y_partial[i] * y_partial[i];
             dop += b[i] * b[i];
         }
@@ -77,7 +77,6 @@ int main(int argc, char **argv) {
     if (rank == 0) {
         vector_fill(a, x, b, n, 0);
     }
-    double norma = 1;
     double dop = 0;
     double *nor = (double *) malloc(2 * sizeof(double));
     nor[0] = 1;
